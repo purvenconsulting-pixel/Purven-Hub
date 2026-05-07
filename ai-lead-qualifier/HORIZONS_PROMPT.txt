@@ -1,0 +1,106 @@
+HOSTINGER HORIZONS DEPLOYMENT PROMPT
+=====================================
+AI Lead Qualifier
+
+COPY AND PASTE THIS EXACT TEXT INTO HORIZONS "CREATE NEW PROJECT":
+
+---
+
+Build an AI Lead Qualifier SaaS dashboard with these exact features:
+
+DASHBOARD OVERVIEW:
+- 4 stat cards at top:
+  * Total Leads (number with trend arrow)
+  * Qualified Leads (green number)
+  * Conversion Rate (percentage)
+  * Time Saved (hours, purple accent)
+
+LEADS TABLE:
+- Columns: Name, Phone, Source (WhatsApp/SMS/Website), Status badge, Score (0-100 with color), Notes, Date
+- Status colors: New (yellow), Qualified (green), Unqualified (red), Contacted (blue)
+- Score colors: 80-100 green, 60-79 yellow, 40-59 orange, 0-39 red
+- Action buttons per row: View, Edit, Delete
+- Export CSV button
+
+BOT SETUP PANEL (Settings page):
+- Section: Qualification Questions
+  * Checkbox list:
+    - What is your budget? (checked by default)
+    - What is your timeline? (checked by default)
+    - Are you the decision maker? (checked by default)
+    - What is your biggest pain point? (unchecked)
+- Section: Scoring Criteria
+  * Min Budget: $ input (default: 1000)
+  * Max Timeline: days input (default: 90)
+  * Auto-book meeting if score >=: number input (default: 70)
+- Save Settings button
+
+WHATSAPP INTEGRATION SECTION:
+- "Connect WhatsApp" button
+- Step-by-step instructions panel
+- Webhook URL display: your-app.com/api/webhook/whatsapp
+- Verify token field
+- Connection status indicator
+
+NAVIGATION:
+- Dashboard, Leads, Settings, Billing
+- User profile dropdown
+
+BACKEND REQUIREMENTS:
+- API endpoint /api/qualify receives {phone, message} returns {lead, score, status, nextAction, suggestedResponse}
+- OpenAI GPT-4 integration for natural language qualification
+- Scoring logic:
+  * Budget detected: +30 points if >= minBudget
+  * Timeline (ASAP/urgent/this week): +25, (this month): +20, (later): +5
+  * Decision maker (yes/i am): +25
+  * Pain point mentioned: +20
+- Status rules: >=70 Qualified, 40-69 Contacted, <40 Unqualified
+- Webhook endpoint /api/webhook/whatsapp for Meta WhatsApp Business API
+- Database tables:
+  * leads: id, name, phone, source, status, score, notes, qualification_data, created_at
+  * users: id, email, plan, lead_count, settings
+  * conversations: lead_id, message, response, timestamp
+- Stripe integration for subscriptions
+
+DESIGN SPECIFICATIONS:
+- Primary: #2563EB (blue)
+- Success: #16A34A (green)
+- Warning: #EAB308 (yellow)
+- Danger: #DC2626 (red)
+- Background: #F9FAFB (gray-50)
+- Sidebar: white with shadow
+- Font: Inter or system sans-serif
+- Mobile responsive with collapsible sidebar
+- Fast, snappy interactions
+
+---
+
+AFTER HORIZONS BUILDS IT:
+
+1. Go to Settings > Integrations > OpenAI
+   - Add your API key: sk-...
+   - Model: gpt-4
+
+2. Go to Settings > Integrations > WhatsApp
+   - Follow Meta Developer setup
+   - Webhook URL: https://your-app.com/api/webhook/whatsapp
+   - Verify token: create a random string, save it
+
+3. Go to Settings > Payments > Stripe
+   - Connect your Stripe account
+   - Create products:
+     * Starter: $49/month (100 leads)
+     * Pro: $149/month (unlimited)
+     * Enterprise: Custom pricing
+
+4. Go to Settings > Domain
+   - Connect: leads.yourdomain.com
+
+5. Click Publish
+
+---
+
+TROUBLESHOOTING:
+- If WhatsApp webhook fails, verify URL is HTTPS and accessible
+- If lead scoring seems off, adjust criteria in Bot Setup panel
+- If OpenAI costs are high, switch to gpt-3.5-turbo for initial qualification

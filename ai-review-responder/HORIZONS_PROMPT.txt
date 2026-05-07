@@ -1,0 +1,78 @@
+HOSTINGER HORIZONS DEPLOYMENT PROMPT
+=====================================
+AI Review Responder
+
+COPY AND PASTE THIS EXACT TEXT INTO HORIZONS "CREATE NEW PROJECT":
+
+---
+
+Build an AI Review Responder web app with these exact features:
+
+LANDING PAGE:
+- Headline: "Generate Perfect Responses to Customer Reviews in Seconds"
+- Subheadline: "Save hours every week. Never stare at a blank reply again."
+- Hero section with a demo input form visible immediately
+
+INPUT FORM:
+- Business Name: text input (placeholder: "e.g., Joe's Coffee Shop")
+- Customer Review: large textarea (placeholder: "Paste the review here...", 5 rows)
+- Tone Selector: dropdown with options: Professional, Friendly, Apologetic, Grateful, Concise
+- "Generate Response" button: blue, full width, prominent
+
+RESULTS SECTION (appears after generation):
+- Generated response displayed in a card with light gray background
+- "Copy to Clipboard" button
+- "Regenerate" button
+- "Try Another Tone" quick-select buttons
+
+PRICING PAGE:
+- Free Plan: 5 responses per day, basic tones
+- Pro Plan: $29/month, unlimited responses, all tones, response history
+- Business Plan: $79/month, everything in Pro plus team sharing, brand voice training, API access
+
+NAVIGATION:
+- Home, Pricing, Login/Signup
+
+BACKEND REQUIREMENTS:
+- API endpoint /api/generate that receives JSON {review, businessName, tone} and returns {response}
+- Integrate with OpenAI GPT-4 API using this prompt structure:
+  "You are a professional business owner. Write a [TONE] response to this customer review for [BUSINESS_NAME]: [REVIEW]"
+- User authentication with email/password
+- Usage tracking: count daily responses per user
+- Stripe integration for Pro and Business subscriptions
+- Database table: users (id, email, password_hash, plan, daily_count, reset_date)
+
+DESIGN SPECIFICATIONS:
+- Primary color: #2563EB (blue-600)
+- Background: #F9FAFB (gray-50)
+- Cards: white with shadow
+- Font: Inter or system sans-serif
+- Mobile responsive
+- Load time under 2 seconds
+- Clean, trustworthy, professional feel
+
+---
+
+AFTER HORIZONS BUILDS IT:
+
+1. Go to Settings > Integrations > OpenAI
+   - Add your API key: sk-...
+   - Model: gpt-4 or gpt-3.5-turbo
+
+2. Go to Settings > Payments > Stripe
+   - Connect your Stripe account
+   - Create products:
+     * Pro: $29/month
+     * Business: $79/month
+
+3. Go to Settings > Domain
+   - Connect: reviewresponder.yourdomain.com
+
+4. Click Publish
+
+---
+
+TROUBLESHOOTING:
+- If OpenAI integration fails, check API key has billing enabled
+- If Stripe doesn't connect, ensure you're in a supported country
+- If responses are slow, switch model to gpt-3.5-turbo in settings
