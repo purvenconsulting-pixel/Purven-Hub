@@ -1,48 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI YouTube Title Generator | Purven Hub</title>
-    <meta name="description" content="Generate catchy, high-CTR YouTube video titles with AI. Optimize your content for more views.">
-    <link rel="canonical" href="https://purvenhub.com/ai-youtube-titles/">
-    <meta property="og:title" content="AI YouTube Title Generator | Purven Hub">
-    <meta property="og:description" content="Boost your YouTube views with AI-powered title suggestions. Free at Purven Hub.">
+    <title>YouTube Title Generator | Purven Hub</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>YouTube Title Generator</h1>
-            <p>Beat the algorithm with titles designed to get clicked.</p>
+    <div class="radial-glow"></div>
+    <nav>
+        <div class="nav-container">
+            <a href="../" class="logo">Purven Hub</a>
+            <div class="nav-links">
+                <a href="/ai-tools/">All Tools</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page-container">
+        <div class="tool-header">
+            <div class="eyebrow">SOCIAL MEDIA</div>
+            <h1>YouTube Titles</h1>
+            <p class="hero-sub">Boost your CTR with engaging, algorithm-friendly titles tailored to your niche and topic.</p>
         </div>
 
-        <div class="card">
+        <div class="form-card">
             <div class="form-group">
-                <label for="apiKey">OpenAI API Key</label>
+                <label>OpenAI API Key</label>
                 <input type="password" id="apiKey" placeholder="sk-...">
             </div>
             <div class="form-group">
-                <label for="topic">Video Topic</label>
-                <input type="text" id="topic" placeholder="e.g., How to start an online business in 2026">
+                <label>Video Topic</label>
+                <input type="text" id="topic" placeholder="e.g., How to fly a drone for beginners">
             </div>
             <div class="form-group">
-                <label for="niche">Niche/Audience</label>
-                <input type="text" id="niche" placeholder="e.g., Finance, Tech, Cooking">
+                <label>Niche / Channel Style</label>
+                <input type="text" id="niche" placeholder="e.g., Tech Reviews, Vlogs, Edu-tainment">
             </div>
-            <button id="generateBtn" class="btn">Generate Titles</button>
+            <button id="generateBtn" class="btn btn-primary btn-block">Generate Titles</button>
         </div>
 
-        <div id="result-section" class="result-area">
-            <label>Title Suggestions (Click to Copy)</label>
+        <div id="results-container" class="results-container">
+            <div class="form-group"><label>CTR Optimized Titles</label></div>
             <div id="results"></div>
         </div>
-
-        <footer>
-            <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com" style="color: inherit;">Purven Consulting</a>.</p>
-            <p><a href="/" style="color: #2563eb;">Home</a> | <a href="/ai-tools/" style="color: #2563eb;">Browse All Tools</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com">Purven Consulting</a>.</p>
+        <p style="margin-top: 1rem;"><a href="../">Home</a> | <a href="/ai-tools/">All Tools</a></p>
+    </footer>
 
     <script src="../tool-logic.js"></script>
     <script>
@@ -50,29 +58,13 @@
             const apiKey = document.getElementById('apiKey').value;
             const topic = document.getElementById('topic').value;
             const niche = document.getElementById('niche').value;
-            
-            if (!apiKey || !topic) {
-                alert('Topic and API Key are required.');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-            btn.innerText = 'Optimizing...';
-
-            const prompt = `Generate 10 catchy, CTR-optimized YouTube video titles for a video about "${topic}" in the ${niche} niche.
-            Include various styles: how-to, lists, click-worthy but not clickbaity, and curiosity gaps.
-            Format as a plain list without numbers or dashes.`;
-
+            if (!apiKey || !topic) { alert('Fields required.'); return; }
+            const btn = this; btn.disabled = true; btn.innerText = 'Analyzing...';
+            const prompt = `Generate 10 viral YouTube titles for topic: ${topic}, niche: ${niche}.`;
             try {
                 const result = await callOpenAI(prompt, apiKey);
                 showResults(result, 'results');
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Generate Titles';
-            }
+            } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = 'Generate Titles'; }
         };
     </script>
 </body>

@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tweet Generator | Purven Hub</title>
-    <meta name="description" content="Create viral tweets and threads in seconds. Choose your tone and let AI handle the creative writing for X.">
-    <link rel="canonical" href="https://purvenhub.com/ai-tweet-generator/">
-    <meta property="og:title" content="AI Tweet Generator | Purven Hub">
-    <meta property="og:description" content="Generate catchy tweets in any tone. Free social media tool at Purven Hub.">
+    <title>Tweet Generator | Purven Hub</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AI Tweet Generator</h1>
-            <p>Twitter (X) content without the writer's block.</p>
+    <div class="radial-glow"></div>
+    <nav>
+        <div class="nav-container">
+            <a href="../" class="logo">Purven Hub</a>
+            <div class="nav-links">
+                <a href="/ai-tools/">All Tools</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page-container">
+        <div class="tool-header">
+            <div class="eyebrow">SOCIAL MEDIA</div>
+            <h1>Tweet Generator</h1>
+            <p class="hero-sub">Twitter (X) content without the writer's block. Perfect for building personal brands and authority.</p>
         </div>
 
-        <div class="card">
+        <div class="form-card">
             <div class="form-group">
-                <label for="apiKey">OpenAI API Key</label>
+                <label>OpenAI API Key</label>
                 <input type="password" id="apiKey" placeholder="sk-...">
             </div>
             <div class="form-group">
-                <label for="topic">About What?</label>
-                <input type="text" id="topic" placeholder="e.g., The importance of deep work">
+                <label>Topic / Input Text</label>
+                <textarea id="topic" rows="3" placeholder="e.g., Tips for successful remote work..."></textarea>
             </div>
             <div class="form-group">
-                <label for="tone">Tone of Voice</label>
+                <label>Tone</label>
                 <select id="tone">
                     <option value="professional">Professional</option>
                     <option value="casual">Casual</option>
@@ -35,19 +43,19 @@
                     <option value="inspirational">Inspirational</option>
                 </select>
             </div>
-            <button id="generateBtn" class="btn">Generate Tweets</button>
+            <button id="generateBtn" class="btn btn-primary btn-block">Generate Tweets</button>
         </div>
 
-        <div id="result-section" class="result-area">
-            <label>Suggested Tweets</label>
+        <div id="results-container" class="results-container">
+            <div class="form-group"><label>Suggested Tweets</label></div>
             <div id="results"></div>
         </div>
-
-        <footer>
-            <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com" style="color: inherit;">Purven Consulting</a>.</p>
-            <p><a href="/" style="color: #2563eb;">Home</a> | <a href="/ai-tools/" style="color: #2563eb;">Browse All Tools</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com">Purven Consulting</a>.</p>
+        <p style="margin-top: 1rem;"><a href="../">Home</a> | <a href="/ai-tools/">All Tools</a></p>
+    </footer>
 
     <script src="../tool-logic.js"></script>
     <script>
@@ -55,32 +63,13 @@
             const apiKey = document.getElementById('apiKey').value;
             const topic = document.getElementById('topic').value;
             const tone = document.getElementById('tone').value;
-            
-            if (!apiKey || !topic) {
-                alert('Topic and API Key are required.');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-            btn.innerText = 'Writing...';
-
-            const prompt = `Generate 5 engaging tweets about "${topic}" in a ${tone} tone.
-            Requirements:
-            - Each tweet must be under 280 characters.
-            - Include relevant hashtags sparingly.
-            - Focus on engagement (replies, RTs).
-            Format as a plain list without numbers or dashes. Separated by new lines.`;
-
+            if (!apiKey || !topic) { alert('Required fields.'); return; }
+            const btn = this; btn.disabled = true; btn.innerText = 'Writing...';
+            const prompt = `Generate 5 engaging tweets in ${tone} tone about: ${topic}. Under 280 chars.`;
             try {
                 const result = await callOpenAI(prompt, apiKey);
                 showResults(result, 'results');
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Generate Tweets';
-            }
+            } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = 'Generate Tweets'; }
         };
     </script>
 </body>

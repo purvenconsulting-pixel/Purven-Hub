@@ -1,54 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume Bullet Generator | Purven Hub</title>
-    <meta name="description" content="Generate high-impact, professional resume bullet points with AI. Transform your job responsibilities into achievements.">
-    <link rel="canonical" href="https://purvenhub.com/ai-resume-bullets/">
-    <meta property="og:title" content="AI Resume Bullet Generator | Purven Hub">
-    <meta property="og:description" content="Generate high-impact, professional resume bullet points with AI. Free to use at Purven Hub.">
-    <meta property="og:url" content="https://purvenhub.com/ai-resume-bullets/">
-    <meta property="og:type" content="website">
     <link rel="stylesheet" href="../style.css">
-    <style>
-        .api-key-notice { font-size: 0.75rem; color: #ef4444; margin-top: 0.5rem; }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AI Resume Bullet Generator</h1>
-            <p>Turn dull job duties into magnetic achievement statements.</p>
+    <div class="radial-glow"></div>
+    <nav>
+        <div class="nav-container">
+            <a href="../" class="logo">Purven Hub</a>
+            <div class="nav-links">
+                <a href="/ai-tools/">All Tools</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page-container">
+        <div class="tool-header">
+            <div class="eyebrow">CAREER TOOL</div>
+            <h1>Resume Bullets</h1>
+            <p class="hero-sub">Generate high-impact, professional resume bullet points with AI. Transform your job responsibilities into achievements.</p>
         </div>
 
-        <div class="card">
+        <div class="form-card">
             <div class="form-group">
-                <label for="apiKey">OpenAI API Key</label>
+                <label>OpenAI API Key</label>
                 <input type="password" id="apiKey" placeholder="sk-...">
-                <p class="api-key-notice">Your key is only used in your browser and never stored.</p>
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">Your key remains in your browser and is never stored.</p>
             </div>
             <div class="form-group">
-                <label for="jobTitle">Target Job Title</label>
+                <label>Target Job Title</label>
                 <input type="text" id="jobTitle" placeholder="e.g., Senior Project Manager">
             </div>
             <div class="form-group">
-                <label for="responsibilities">Draft Responsibilities</label>
+                <label>Draft Responsibilities</label>
                 <textarea id="responsibilities" rows="4" placeholder="e.g., I led a team of 5 and managed the budget."></textarea>
             </div>
-            <button id="generateBtn" class="btn">Generate Power Bullets</button>
+            <button id="generateBtn" class="btn btn-primary btn-block">Generate Power Bullets</button>
         </div>
 
-        <div id="result-section" class="result-area">
-            <label>Optimized Achievements</label>
+        <div id="results-container" class="results-container">
+            <div class="form-group"><label>Optimized Achievements</label></div>
             <div id="results"></div>
         </div>
-
-        <footer>
-            <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com" style="color: inherit;">Purven Consulting</a>.</p>
-            <p><a href="/" style="color: #2563eb;">Home</a> | <a href="/ai-tools/" style="color: #2563eb;">Browse All Tools</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com">Purven Consulting</a>.</p>
+        <p style="margin-top: 1rem;"><a href="../">Home</a> | <a href="/ai-tools/">All Tools</a></p>
+    </footer>
 
     <script src="../tool-logic.js"></script>
     <script>
@@ -56,33 +59,13 @@
             const apiKey = document.getElementById('apiKey').value;
             const jobTitle = document.getElementById('jobTitle').value;
             const responsibilities = document.getElementById('responsibilities').value;
-            
-            if (!apiKey || !jobTitle || !responsibilities) {
-                alert('Please fill in all fields including your API key.');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-            btn.innerText = 'Crafting...';
-
-            const prompt = `Rewrite the following responsibilities for a "${jobTitle}" into 5 high-impact resume bullet points. 
-            Use strong action verbs, include quantifiable metrics if possible, and focus on achievements rather than duties.
-            
-            Responsibilities:
-            ${responsibilities}
-            
-            Format as a plain list without numbers or dashes.`;
-
+            if (!apiKey || !jobTitle || !responsibilities) { alert('All fields are required.'); return; }
+            const btn = this; btn.disabled = true; btn.innerText = 'Crafting...';
+            const prompt = `Rewrite these for a "${jobTitle}" into 5 high-impact resume bullet points with action verbs and metrics: ${responsibilities}`;
             try {
                 const result = await callOpenAI(prompt, apiKey);
                 showResults(result, 'results');
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Generate Power Bullets';
-            }
+            } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = 'Generate Power Bullets'; }
         };
     </script>
 </body>

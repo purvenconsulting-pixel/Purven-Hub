@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Product Description Generator | Purven Hub</title>
-    <meta name="description" content="Generate persuasive, high-converting product descriptions and marketing taglines with AI. Free eCommerce tool.">
-    <link rel="canonical" href="https://purvenhub.com/ai-product-descriptions/">
-    <meta property="og:title" content="AI Product Description Generator | Purven Hub">
-    <meta property="og:description" content="Persuasive product descriptions in seconds. Free at Purven Hub.">
+    <title>Product Descriptions | Purven Hub</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>AI Product Description Generator</h1>
-            <p>Turn product features into compelling copy that sells.</p>
+    <div class="radial-glow"></div>
+    <nav>
+        <div class="nav-container">
+            <a href="../" class="logo">Purven Hub</a>
+            <div class="nav-links">
+                <a href="/ai-tools/">All Tools</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"><svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"></svg></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page-container">
+        <div class="tool-header">
+            <div class="eyebrow">ECOMMERCE</div>
+            <h1>Product Descriptions</h1>
+            <p class="hero-sub">Persuasive, sales-driven copy for your products. Includes snappy taglines for headlines.</p>
         </div>
 
-        <div class="card">
+        <div class="form-card">
             <div class="form-group">
-                <label for="apiKey">OpenAI API Key</label>
+                <label>OpenAI API Key</label>
                 <input type="password" id="apiKey" placeholder="sk-...">
             </div>
             <div class="form-group">
-                <label for="name">Product Name</label>
-                <input type="text" id="name" placeholder="e.g., Ultra-light Ergo Chair">
+                <label>Product Name</label>
+                <input type="text" id="name" placeholder="e.g., UltraComfort Ergo Highback">
             </div>
             <div class="form-group">
-                <label for="features">Key Features (one per line)</label>
-                <textarea id="features" rows="3" placeholder="e.g., Recycled materials\n10-year warranty\nLumbar support"></textarea>
+                <label>Features (bullet points)</label>
+                <textarea id="features" rows="3" placeholder="e.g., Lumbar support, Eco-friendly fabric..."></textarea>
             </div>
-            <div class="form-group">
-                <label for="customer">Target Customer</label>
-                <input type="text" id="customer" placeholder="e.g., Remote office workers">
-            </div>
-            <button id="generateBtn" class="btn">Generate Copy</button>
+            <button id="generateBtn" class="btn btn-primary btn-block">Generate Description</button>
         </div>
 
-        <div id="result-section" class="result-area">
-            <label>Product Description & Taglines</label>
+        <div id="results-container" class="results-container">
+            <div class="form-group"><label>Generated Copy</label></div>
             <div id="results"></div>
         </div>
-
-        <footer>
-            <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com" style="color: inherit;">Purven Consulting</a>.</p>
-            <p><a href="/" style="color: #2563eb;">Home</a> | <a href="/ai-tools/" style="color: #2563eb;">Browse All Tools</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Purven Hub. Part of <a href="https://purvenconsulting.com">Purven Consulting</a>.</p>
+        <p style="margin-top: 1rem;"><a href="../">Home</a> | <a href="/ai-tools/">All Tools</a></p>
+    </footer>
 
     <script src="../tool-logic.js"></script>
     <script>
@@ -54,35 +58,13 @@
             const apiKey = document.getElementById('apiKey').value;
             const name = document.getElementById('name').value;
             const features = document.getElementById('features').value;
-            const customer = document.getElementById('customer').value;
-            
-            if (!apiKey || !name || !features) {
-                alert('Please fill in the required fields.');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-            btn.innerText = 'Analyzing features...';
-
-            const prompt = `Write a polished product description (approx 100 words) and 3 short marketing taglines for "${name}".
-            Features: ${features}
-            Target Customer: ${customer}
-            
-            Requirements:
-            - Professional, persuasive tone.
-            - Emotional benefits, not just features.
-            Format description first, then taglines on separate new lines.`;
-
+            if (!apiKey || !name) { alert('Name and Key required.'); return; }
+            const btn = this; btn.disabled = true; btn.innerText = 'Creating copy...';
+            const prompt = `Write a persuasive product description and 3 taglines for: Product: ${name}, Features: ${features}`;
             try {
                 const result = await callOpenAI(prompt, apiKey);
                 showResults(result, 'results');
-            } catch (err) {
-                alert(err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Generate Copy';
-            }
+            } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = 'Generate Description'; }
         };
     </script>
 </body>
